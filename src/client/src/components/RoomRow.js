@@ -1,41 +1,52 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-class RoomRow extends React.Component {
-    constructor(props) {
-        super(props);
-        this.deleteRoom = this.deleteRoom.bind(this);
+function RoomRow(props) {
+    const navigate = useNavigate();
+
+    async function deleteRoom() {
+        await axios.delete('/room/' + props.room.room_number);
+        props.update();
     }
 
-    deleteRoom() {
-        axios.delete('/room/' + this.props.room.room_number);
-        window.location.reload();
+    async function handleClick() {
+        await axios.post('/addBooking/' + props.room.room_number, {
+            from: props.bookingInfo.from,
+            to: props.bookingInfo.to
+        });
+        navigate('/');
     }
 
-    render() {
-        return (
-            <tr>
-                <td>{this.props.room.room_number}</td>
-                <td>{this.props.room.room_type}</td>
+    return (
+        <tr>
+            <td>{props.room.room_number}</td>
+            <td>{props.room.room_type}</td>
+            {
+                props.bookingInfo != null &&
                 <td>
-                    <Link to={'/editBookings/' + this.props.room.room_number}>
-                        Edit Bookings
-                    </Link>
-                </td>
-                <td>
-                    <Link to={'/editRoom/' + this.props.room.room_number + '/' + this.props.room.room_type}>
-                        Edit Room
-                    </Link>
-                </td>
-                <td>
-                    <button onClick={this.deleteRoom}>
-                        Delete Room
+                    <button className='btn btn-primary' onClick={() => handleClick()}>
+                        Book Room on these dates
                     </button>
                 </td>
-            </tr>
-        )
-    }
+            }
+            <td>
+                <Link to={'/editBookings/' + props.room.room_number}>
+                    Edit Bookings
+                </Link>
+            </td>
+            <td>
+                <Link to={'/editRoom/' + props.room.room_number + '/' + props.room.room_type}>
+                    Edit Room
+                </Link>
+            </td>
+            <td>
+                <button className='btn btn-danger' onClick={() => deleteRoom()}>
+                    Delete Room
+                </button>
+            </td>
+        </tr>
+    )
 }
 
 export default RoomRow;

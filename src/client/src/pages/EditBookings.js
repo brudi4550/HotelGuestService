@@ -7,9 +7,20 @@ class EditBookings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            bookings: []
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getBookings = this.getBookings.bind(this);
+    }
+
+    componentDidMount() {
+        this.getBookings();
+    }
+
+    async getBookings() {
+        const res = await axios.get('/bookings/' + this.props.params.roomNr);
+        console.log(res.data);
+        this.setState({ bookings: res.data }); 
     }
 
     async handleSubmit(event) {
@@ -18,7 +29,7 @@ class EditBookings extends React.Component {
             from: event.target.from.value,
             to: event.target.to.value
         });
-        window.location.reload();
+        await this.getBookings();
     }
 
     render() {
@@ -26,12 +37,12 @@ class EditBookings extends React.Component {
             <div>
                 <form className="form" onSubmit={this.handleSubmit}>
                     <label htmlFor="from">From Date:</label><br />
-                    <input onChange={this.handleFromChange} type="date" id="from" name="from" /><br />
+                    <input type="date" id="from" name="from" /><br />
                     <label htmlFor="to">To Date:</label><br />
-                    <input onChange={this.handleToChange} type="date" id="to" name="to" />
-                    <input type="submit" value="Submit" />
+                    <input type="date" id="to" name="to" />
+                    <input className='btn btn-primary' type="submit" value="Submit" />
                 </form>
-                <BookingsTable roomNr={this.props.params.roomNr} />
+                <BookingsTable bookings={this.state.bookings} />
             </div>
 
         )

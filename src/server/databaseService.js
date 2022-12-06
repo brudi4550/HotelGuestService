@@ -48,7 +48,7 @@ async function editRoom(oldRoomNr, newRoomNr, roomType) {
 
 async function deleteRoom(roomNr) {
     try {
-        const res = await client.query('DELETE FROM room WHERE room_number=$1', [roomNr]);
+        const res = await client.query('DELETE FROM room WHERE room_number=$1;', [roomNr]);
         return res;
     } catch (err) {
         console.log(err);
@@ -58,7 +58,8 @@ async function deleteRoom(roomNr) {
 
 async function getBookings(roomNr) {
     try {
-        const res = await client.query('SELECT * FROM room_booked_on WHERE room_id=$1;', [roomNr]);
+        const id = await getRoomIdFromNumber(roomNr);
+        const res = await client.query('SELECT * FROM room_booked_on WHERE room_id=$1;', [id]);
         return res.rows;
     } catch (err) {
         console.log(err);
@@ -68,9 +69,10 @@ async function getBookings(roomNr) {
 
 async function addBooking(roomNr, from, to) {
     try {
-        const overlaps = await overlapsWithOtherBooking(roomNr, from, to);
+        const id = await getRoomIdFromNumber(roomNr);
+        const overlaps = await overlapsWithOtherBooking(id, from, to);
         if (!overlaps && !(to < from)) {
-            const res = await client.query('INSERT INTO room_booked_on(room_id, booked_from, booked_until) VALUES($1, $2, $3);', [roomNr, from, to]);
+            const res = await client.query('INSERT INTO room_booked_on(room_id, booked_from, booked_until) VALUES($1, $2, $3);', [id, from, to]);
             return res.rows;
         } else {
             return null;
@@ -81,13 +83,13 @@ async function addBooking(roomNr, from, to) {
     }
 }
 
-async function overlapsWithOtherBooking(roomNr, from, to) {
+async function overlapsWithOtherBooking(roomId, from, to) {
     try {
         const res = await client.query(
             `SELECT * 
              FROM room_booked_on 
              WHERE room_id = $1
-             AND ($2, $3) OVERLAPS (booked_from, booked_until)`, [roomNr, from, to]
+             AND ($2, $3) OVERLAPS (booked_from, booked_until)`, [roomId, from, to]
         );
         return res.rows.length > 0;
     } catch (err) {
@@ -106,6 +108,31 @@ async function deleteBooking(bookingNr) {
     }
 }
 
+async function getOpenRoomsInRange(from, to) {
+    try {
+        const res = await client.query(
+            `SELECT * FROM room
+            WHERE id NOT IN (
+            SELECT room_id FROM room_booked_on
+            WHERE ($1, $2) OVERLAPS (booked_from, booked_until));`, [from, to]
+        );
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        return true;
+    }
+}
+
+async function getRoomIdFromNumber(roomNr) {
+    try {
+        const res = await client.query('SELECT id FROM room WHERE room_number=$1;', [roomNr]);
+        return res.rows[0].id;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 module.exports = {
     connect,
     getRooms,
@@ -114,5 +141,6 @@ module.exports = {
     deleteRoom,
     getBookings,
     addBooking,
-    deleteBooking
+    deleteBooking,
+    getOpenRoomsInRange
 }

@@ -108,6 +108,19 @@ app.delete('/booking/:bookingNr', async (req, res) => {
   }
 });
 
+app.post('/getOpenRoomsInRange', async (req, res) => {
+  const from = req.body.from;
+  const to = req.body.to;
+  const dbRes = await db.getOpenRoomsInRange(from, to);
+  if (dbRes) {
+    res.status(200).send(dbRes);
+  } else {
+    res.status(500).send({
+      message: 'Something went wrong'
+    })
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`WebIDE backend running on ${PORT}`);
+  console.log(`HotelService backend running on ${PORT}`);
 });
