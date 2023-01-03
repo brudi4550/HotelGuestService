@@ -19,7 +19,10 @@ class Home extends React.Component {
 
     async getRooms() {
         const res = await axios.get('/rooms');
-        this.setState({ rooms: res.data });
+        const sorted = res.data.sort((a, b) => a.room_number - b.room_number);
+        this.setState({
+            rooms: sorted
+        })
     }
 
     render() {
@@ -27,14 +30,14 @@ class Home extends React.Component {
             <div>
                 <div className='row'>
                     <div className='col'>
-                        <AddRoomForm getRooms={this.getRooms}/>
+                        <AddRoomForm getRooms={this.getRooms} />
                     </div>
                     <div className='col'>
                         <SearchOpenRoomsForm></SearchOpenRoomsForm>
                     </div>
                 </div>
-                <RoomTable update={this.getRooms} rooms={this.state.rooms}/>
-            </div>
+                <RoomTable update={this.getRooms} rooms={this.state.rooms} />
+            </div >
         )
     }
 }

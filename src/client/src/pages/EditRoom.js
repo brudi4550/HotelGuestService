@@ -22,9 +22,10 @@ class EditRoom extends React.Component {
         this.setState({ roomType: event.target.value });
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
-        axios.post('/editRoom/' + this.props.params.roomNr + '/' + this.state.roomNr + '/' + this.state.roomType);
+        console.log('handling event submit');
+        await axios.post('/editRoom/' + this.props.params.roomNr + '/' + this.state.roomNr + '/' + this.state.roomType);
         document.location.href="/";
     }
 

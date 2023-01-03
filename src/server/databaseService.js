@@ -89,7 +89,7 @@ async function overlapsWithOtherBooking(roomId, from, to) {
             `SELECT * 
              FROM room_booked_on 
              WHERE room_id = $1
-             AND ($2, $3) OVERLAPS (booked_from, booked_until)`, [roomId, from, to]
+             AND ($2, $3) OVERLAPS (booked_from, booked_until);`, [roomId, from, to]
         );
         return res.rows.length > 0;
     } catch (err) {
@@ -100,7 +100,18 @@ async function overlapsWithOtherBooking(roomId, from, to) {
 
 async function deleteBooking(bookingNr) {
     try {
-        const res = await client.query('DELETE FROM room_booked_on WHERE booking_id=$1', [bookingNr]);
+        const res = await client.query('DELETE FROM room_booked_on WHERE booking_id=$1;', [bookingNr]);
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
+async function deleteAllBookings(roomNr) {
+    try {
+        const roomId = await getRoomIdFromNumber(roomNr);
+        const res = await client.query('DELETE FROM room_booked_on WHERE room_id=$1;', [roomId]);
         return res.rows;
     } catch (err) {
         console.log(err);
@@ -142,5 +153,6 @@ module.exports = {
     getBookings,
     addBooking,
     deleteBooking,
-    getOpenRoomsInRange
+    getOpenRoomsInRange,
+    deleteAllBookings
 }

@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const axios = require('axios');
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 require('dotenv').config({ path: __dirname + '/.env' })
@@ -54,12 +53,13 @@ app.post('/editRoom/:oldRoomNr/:newRoomNr/:roomType', async (req, res) => {
 
 app.delete('/room/:roomNr', async (req, res) => {
   const roomNr = req.params['roomNr'];
-  const dbRes = await db.deleteRoom(roomNr);
-  if (dbRes) {
+  try {
+    const deleteBookingsRes = await db.deleteAllBookings(roomNr);
+    const dbRes = await db.deleteRoom(roomNr);
     res.status(200).send({
-      message: 'Room deleted'
+      message: 'Room and all its bookings deleted'
     })
-  } else {
+  } catch (e) {
     res.status(500).send({
       message: 'Couldn\'t find room number'
     })
