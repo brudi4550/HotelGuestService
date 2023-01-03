@@ -108,9 +108,9 @@ app.delete('/booking/:bookingNr', async (req, res) => {
   }
 });
 
-app.post('/getOpenRoomsInRange', async (req, res) => {
-  const from = req.body.from;
-  const to = req.body.to;
+app.get('/openRoomsInRange/:from/:to', async (req, res) => {
+  const from = req.params['from'];
+  const to = req.params['to'];
   const dbRes = await db.getOpenRoomsInRange(from, to);
   if (dbRes) {
     res.status(200).send(dbRes);

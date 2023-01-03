@@ -14,7 +14,7 @@ function BookingsTable(props) {
                 </tr>
             </thead>
             <tbody>
-                {props.bookings.map(booking => <BookingRow key={booking['booking_id']} booking={booking} />)}
+                {props.bookings.map(booking => <BookingRow key={booking['booking_id']} update={props.update} booking={booking} />)}
             </tbody>
         </table>
     )

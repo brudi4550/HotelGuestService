@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function AddRoomForm(props) {
     async function handleSubmit(event) {
+        console.log(event);
         event.preventDefault();
         const roomNr = event.target.roomNr.value;
         const type = event.target.type.value;

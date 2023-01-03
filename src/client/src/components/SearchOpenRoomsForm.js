@@ -5,14 +5,11 @@ import { useNavigate } from 'react-router-dom';
 function SearchOpenRoomsForm(props) {
     const navigate = useNavigate();
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        const from = event.target.from.value;
-        const to = event.target.to.value;
-        const open = await axios.post('/getOpenRoomsInRange/', {
-            from: from,
-            to: to
-        });
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const from =  e.target.from.value;
+        const to = e.target.to.value;
+        const open = await axios.get('/openRoomsInRange/' + from + '/' + to);
         navigate('/searchRooms', {
             state: {
                 open: open.data,

@@ -19,7 +19,6 @@ class EditBookings extends React.Component {
 
     async getBookings() {
         const res = await axios.get('/bookings/' + this.props.params.roomNr);
-        console.log(res.data);
         this.setState({ bookings: res.data }); 
     }
 
@@ -42,7 +41,7 @@ class EditBookings extends React.Component {
                     <input type="date" id="to" name="to" />
                     <input className='btn btn-primary' type="submit" value="Submit" />
                 </form>
-                <BookingsTable bookings={this.state.bookings} />
+                <BookingsTable bookings={this.state.bookings} update={this.getBookings}/>
             </div>
 
         )

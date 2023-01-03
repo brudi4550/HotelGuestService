@@ -3,8 +3,8 @@ import axios from 'axios';
 
 function BookingRow(props) {
     async function deleteBooking() {
-        axios.delete('/booking/' + this.props.booking.booking_id);
-        window.location.reload();
+        await axios.delete('/booking/' + props.booking.booking_id);
+        props.update();
     }
 
     return (

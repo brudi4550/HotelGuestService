@@ -2,6 +2,7 @@ import React from 'react';
 import RoomRow from './RoomRow';
 
 function RoomTable(props) {
+    const sorted = props.rooms.sort((a, b) => a.room_number - b.room_number);
 
     return (
         <table className="table">
@@ -19,7 +20,7 @@ function RoomTable(props) {
                 </tr>
             </thead>
             <tbody>
-                {props.rooms.map(room => <RoomRow key={room['id']} room={room} update={props.update} bookingInfo={props.bookingInfo}></RoomRow>)}
+                {sorted.map(room => <RoomRow key={room['id']} room={room} update={props.update} bookingInfo={props.bookingInfo}></RoomRow>)}
             </tbody>
         </table>
     )
