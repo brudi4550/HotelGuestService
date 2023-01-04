@@ -1,9 +1,13 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser')
-app.use(bodyParser.json());
 require('dotenv').config({ path: __dirname + '/.env' })
 const PORT = process.env.PORT || 3000;
+
+const app = express();
+app.use(bodyParser.json());
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
 
 const db = require('./databaseService.js');
 db.connect();
@@ -120,6 +124,8 @@ app.delete('/bookings/:bookingNr', async (req, res) => {
     })
   }
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.listen(PORT, () => {
   console.log(`HotelService backend running on ${PORT}`);

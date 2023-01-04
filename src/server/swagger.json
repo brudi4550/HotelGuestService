@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "HotelGuestService API",
+    "description": "HotelGuestService express-based API for the cource Service Engineering at the JKU"
+  },
+  "paths": {
+    "/rooms": {
+      "get": {
+        "summary": "Returns a list of hotel rooms",
+        "description": "Returns a full-fledged list of hotel rooms",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of hotel rooms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "room_number": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "room_type": {
+                        "type": "string",
+                        "example": "Single"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
