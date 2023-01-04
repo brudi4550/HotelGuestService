@@ -70,9 +70,9 @@ app.delete('/rooms/:roomNr', async (req, res) => {
   }
 });
 
-app.get('/openRooms/:from/:to', async (req, res) => {
-  const from = req.params['from'];
-  const to = req.params['to'];
+app.get('/rooms/search', async (req, res) => {
+  const from = req.query.from;
+  const to = req.query.to;
   const dbRes = await db.getOpenRoomsInRange(from, to);
   if (dbRes) {
     res.status(200).send(dbRes);
