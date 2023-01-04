@@ -6,12 +6,13 @@ function RoomRow(props) {
     const navigate = useNavigate();
 
     async function deleteRoom() {
-        await axios.delete('/room/' + props.room.room_number);
+        await axios.delete('/rooms/' + props.room.room_number);
         props.update();
     }
 
     async function handleClick() {
-        await axios.post('/addBooking/' + props.room.room_number, {
+        await axios.post('/bookings', {
+            roomNr: props.room.room_number,
             from: props.bookingInfo.from,
             to: props.bookingInfo.to
         });

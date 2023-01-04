@@ -18,13 +18,18 @@ class EditBookings extends React.Component {
     }
 
     async getBookings() {
-        const res = await axios.get('/bookings/' + this.props.params.roomNr);
-        this.setState({ bookings: res.data }); 
+        const res = await axios.get('/bookings/', {
+            params: {
+                roomNr: this.props.params.roomNr
+            }
+        });
+        this.setState({ bookings: res.data });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
-        await axios.post('/addBooking/' + this.props.params.roomNr, {
+        await axios.post('/bookings', {
+            roomNr: this.props.params.roomNr,
             from: event.target.from.value,
             to: event.target.to.value
         });
@@ -41,7 +46,7 @@ class EditBookings extends React.Component {
                     <input type="date" id="to" name="to" />
                     <input className='btn btn-primary' type="submit" value="Submit" />
                 </form>
-                <BookingsTable bookings={this.state.bookings} update={this.getBookings}/>
+                <BookingsTable bookings={this.state.bookings} update={this.getBookings} />
             </div>
 
         )

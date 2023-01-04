@@ -7,7 +7,10 @@ function AddRoomForm(props) {
         event.preventDefault();
         const roomNr = event.target.roomNr.value;
         const type = event.target.type.value;
-        await axios.post('/addRoom/' + roomNr + '/' + type);
+        await axios.post('/rooms', {
+            roomNr: roomNr,
+            roomType: type
+        });
         props.getRooms();
     }
 

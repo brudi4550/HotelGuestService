@@ -9,7 +9,7 @@ function SearchOpenRoomsForm(props) {
         e.preventDefault();
         const from =  e.target.from.value;
         const to = e.target.to.value;
-        const open = await axios.get('/openRoomsInRange/' + from + '/' + to);
+        const open = await axios.get('/openRooms/' + from + '/' + to);
         navigate('/searchRooms', {
             state: {
                 open: open.data,
