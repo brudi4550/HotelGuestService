@@ -3,13 +3,13 @@
   "info": {
     "version": "1.0.0",
     "title": "HotelGuestService API",
-    "description": "HotelGuestService express-based API for the cource Service Engineering at the JKU"
+    "description": "HotelGuestService express-based API for the course Service Engineering at the JKU"
   },
   "paths": {
     "/rooms": {
       "get": {
-        "summary": "Returns a list of hotel rooms",
-        "description": "Returns a full-fledged list of hotel rooms",
+        "summary": "Get a list of hotel rooms",
+        "description": "Gets a full-fledged list of hotel rooms",
         "tags": [
           "Rooms"
         ],
@@ -35,6 +35,367 @@
                         "type": "string",
                         "example": "Single"
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a hotel room",
+        "description": "Creates a hotel room",
+        "tags": [
+          "Rooms"
+        ],
+        "requestBody": {
+          "description": "Room to add in JSON",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "roomNr": {
+                    "type": "integer",
+                    "example": 100
+                  },
+                  "roomType": {
+                    "type": "string",
+                    "example": "Single"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Room added"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/rooms/{roomNr}": {
+      "put": {
+        "summary": "Update a hotel room",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "roomNr",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Number of the hotel room to update"
+          }
+        ],
+        "description": "Updates a hotel room",
+        "tags": [
+          "Rooms"
+        ],
+        "requestBody": {
+          "description": "Room to update in JSON",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newRoomNr": {
+                    "type": "integer",
+                    "example": 100
+                  },
+                  "roomType": {
+                    "type": "string",
+                    "example": "Single"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Room updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a hotel room",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "roomNr",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Number of the hotel room to delete"
+          }
+        ],
+        "description": "Deletes a hotel room",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "200": {
+            "description": "Status message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Room and all its bookings deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/rooms/search": {
+      "get": {
+        "summary": "Get a filtered list of hotel rooms",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Date from which rooms should be empty"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Date to which rooms should be empty"
+          }
+        ],
+        "description": "Gets a full-fledged, filtered list of hotel rooms",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of hotel rooms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "room_number": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "room_type": {
+                        "type": "string",
+                        "example": "Single"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "get": {
+        "summary": "Get a list of hotel room bookings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roomNr",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Number of the hotel room for which to get the bookings"
+          }
+        ],
+        "description": "Gets a full-fledged list of hotel room bookings",
+        "tags": [
+          "Bookings"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of hotel room bookings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "booking_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "room_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "booked_from": {
+                        "type": "string",
+                        "example": "2023-01-01"
+                      },
+                      "booked_until": {
+                        "type": "string",
+                        "example": "2023-01-02"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a hotel room booking",
+        "description": "Creates a hotel room booking",
+        "tags": [
+          "Bookings"
+        ],
+        "requestBody": {
+          "description": "Booking to add in JSON",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "roomNr": {
+                    "type": "integer",
+                    "example": 100
+                  },
+                  "from": {
+                    "type": "string",
+                    "example": "2023-01-01"
+                  },
+                  "to": {
+                    "type": "string",
+                    "example": "2023-01-02"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Booking added"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings/{bookingNr}": {
+      "delete": {
+        "summary": "Delete a hotel room booking",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bookingNr",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Number of the hotel room booking to delete"
+          }
+        ],
+        "description": "Deletes a hotel room booking",
+        "tags": [
+          "Bookings"
+        ],
+        "responses": {
+          "200": {
+            "description": "Status message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Booking deleted"
                     }
                   }
                 }

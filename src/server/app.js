@@ -45,7 +45,7 @@ app.put('/rooms/:roomNr', async (req, res) => {
   const dbRes = await db.editRoom(oldRoomNr, newRoomNr, roomType);
   if (dbRes) {
     res.status(200).send({
-      message: 'Room added'
+      message: 'Room updated'
     })
   } else {
     res.status(500).send({
