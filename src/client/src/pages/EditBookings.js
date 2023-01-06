@@ -39,11 +39,18 @@ class EditBookings extends React.Component {
     render() {
         return (
             <div>
+                <h5 className='border-bottom mt-3'>Add a booking</h5>
                 <form className="form" onSubmit={this.handleSubmit}>
-                    <label htmlFor="from">From Date:</label><br />
-                    <input type="date" id="from" name="from" /><br />
-                    <label htmlFor="to">To Date:</label><br />
-                    <input type="date" id="to" name="to" />
+                    <div className='row'>
+                        <div className='col-3'>
+                            <label className='control-label' htmlFor="from">From Date:</label><br />
+                            <input className='form-control' type="date" id="from" name="from" /><br />
+                        </div>
+                        <div className='col-3'>
+                            <label className='control-label' htmlFor="to">To Date:</label><br />
+                            <input className='form-control' type="date" id="to" name="to" />
+                        </div>
+                    </div>
                     <input className='btn btn-primary' type="submit" value="Submit" />
                 </form>
                 <BookingsTable bookings={this.state.bookings} update={this.getBookings} />

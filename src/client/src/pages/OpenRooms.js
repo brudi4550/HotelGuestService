@@ -1,22 +1,39 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import RoomTable from '../components/RoomTable';
+import SearchOpenRoomsForm from '../components/SearchOpenRoomsForm';
 
-function OpenRoomsInDateRange(props) {
-    const location = useLocation();
+class OpenRooms extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            rooms: [],
+            from: null,
+            to: null
+        }
+        this.update = this.update.bind(this);
+    }
 
-    const dates = {
-        from: location.state.from,
-        to: location.state.to
-    };
-    return (
-        <div>
-            <h3>Open Rooms In Date Range:</h3>
-            <h4>{location.state.from} - {location.state.to}</h4>
-            <RoomTable bookingInfo={dates} rooms={location.state.open} />
-        </div>
-    );
+    update(rooms, from, to) {
+        this.setState({
+            rooms: rooms,
+            from: from,
+            to: to
+        });
+    }
+
+    render() {
+        const bookingInfo = {from: this.state.from, to: this.state.to};
+        return (
+            <div>
+                <SearchOpenRoomsForm update={this.update} />
+                <div>
+                    <h3>Open Rooms In Date Range:</h3>
+                    <RoomTable bookingInfo={bookingInfo} rooms={this.state.rooms}></RoomTable>
+                </div>
+            </div>
+        );
+    }
 
 }
 
-export default OpenRoomsInDateRange;
+export default OpenRooms;

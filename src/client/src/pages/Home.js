@@ -1,8 +1,6 @@
 import React from 'react';
 import RoomTable from '../components/RoomTable';
-import AddRoomForm from '../components/AddRoomForm';
 import axios from 'axios';
-import SearchOpenRoomsForm from '../components/SearchOpenRoomsForm';
 
 class Home extends React.Component {
     constructor(props) {
@@ -28,14 +26,6 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <div className='row'>
-                    <div className='col'>
-                        <AddRoomForm getRooms={this.getRooms} />
-                    </div>
-                    <div className='col'>
-                        <SearchOpenRoomsForm></SearchOpenRoomsForm>
-                    </div>
-                </div>
                 <RoomTable update={this.getRooms} rooms={this.state.rooms} />
             </div >
         )

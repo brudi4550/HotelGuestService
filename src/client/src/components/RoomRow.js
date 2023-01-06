@@ -33,19 +33,32 @@ function RoomRow(props) {
             }
             <td>
                 <Link to={'/editBookings/' + props.room.room_number}>
-                    Edit Bookings
+                    <div className='d-flex justify-content-center'>
+                        <button className='btn btn-primary'>
+                            <i className="bi bi-pencil"></i>
+                        </button>
+                    </div>
                 </Link>
             </td>
             <td>
                 <Link to={'/editRoom/' + props.room.room_number + '/' + props.room.room_type}>
-                    Edit Room
+                    <div className='d-flex justify-content-center'>
+                        <button className='btn btn-primary'>
+                            <i className="bi bi-pencil"></i>
+                        </button>
+                    </div>
                 </Link>
             </td>
-            <td>
-                <button className='btn btn-danger' onClick={() => deleteRoom()}>
-                    Delete Room
-                </button>
-            </td>
+            {
+                props.bookingInfo == null &&
+                <td>
+                    <div className='d-flex justify-content-center'>
+                        <button className='btn btn-danger' onClick={() => deleteRoom()}>
+                            <i className="bi bi-trash3"></i>
+                        </button>
+                    </div>
+                </td>
+            }
         </tr>
     )
 }

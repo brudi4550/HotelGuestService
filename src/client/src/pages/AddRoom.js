@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function AddRoomForm(props) {
+    const navigate = useNavigate();
+
     async function handleSubmit(event) {
         console.log(event);
         event.preventDefault();
@@ -11,21 +14,22 @@ function AddRoomForm(props) {
             roomNr: roomNr,
             roomType: type
         });
-        props.getRooms();
+        navigate('/');
     }
 
     return (
-        <div>
-            <h5>Add a room</h5>
-            <form className="form" onSubmit={(e) => handleSubmit(e)}>
-                <label htmlFor="roomNr">Room Number:</label><br />
-                <input type="text" id="roomNr" name="roomNr" /><br />
-                <label htmlFor="roomType">Room Type:</label><br />
-                <select id="type" name="type">
+        <div className='col-6 mt-3'>
+            <h5 className='border-bottom'>Add a room</h5>
+            <form className="form-horizontal" onSubmit={(e) => handleSubmit(e)}>
+                <label className='control-label' htmlFor="roomNr">Room Number:</label>
+                <input className='form-control' type="text" id="roomNr" name="roomNr" /><br />
+                <label className='' htmlFor="roomType">Room Type:</label>
+                <select className='form-control' id="type" name="type">
                     <option value="Single">Single</option>
                     <option value="Double">Double</option>
                     <option value="Suite">Suite</option>
                 </select>
+                <br />
                 <input className='btn btn-primary' type="submit" value="Submit" />
             </form>
         </div>

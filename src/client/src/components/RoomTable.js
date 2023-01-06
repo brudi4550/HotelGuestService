@@ -14,9 +14,24 @@ function RoomTable(props) {
                         props.bookingInfo != null &&
                         <th>Book Room</th>
                     }
-                    <th>Edit Bookings</th>
-                    <th>Edit Room</th>
-                    <th>Delete Room</th>
+                    <th>
+                        <div className='d-flex justify-content-center'>
+                            Edit Bookings
+                        </div>
+                    </th>
+                    <th>
+                        <div className='d-flex justify-content-center'>
+                            Edit Room
+                        </div>
+                    </th>
+                    {
+                        props.bookingInfo == null &&
+                        <th>
+                            <div className='d-flex justify-content-center'>
+                                Delete Room
+                            </div>
+                        </th>
+                    }
                 </tr>
             </thead>
             <tbody>

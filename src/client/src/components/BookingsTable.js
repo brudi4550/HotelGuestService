@@ -10,7 +10,7 @@ function BookingsTable(props) {
                     <th>Booking Number</th>
                     <th>From</th>
                     <th>To</th>
-                    <th>Delete</th>
+                    <th className='d-flex justify-content-center'>Delete</th>
                 </tr>
             </thead>
             <tbody>
