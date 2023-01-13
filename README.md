@@ -11,7 +11,7 @@ Create a file called '.env' in the server folder and fill it with the following 
 ```
 PORT=... (the port the application should run on)
 HOST=... (the host address of your database)
-USER=... (username for your database)
+DATABASE_USER=... (username for your database)
 PASSWORD=... (password for the user)
 DATABASE=... (database name you want to connect to)
 DATABASE_PORT=... (the port of your database)

@@ -6,7 +6,7 @@ pg.types.setTypeParser(1082, function (stringValue) {
 });
 const client = new pg.Client({
     host: process.env.HOST,
-    user: process.env.USER,
+    user: process.env.DATABASE_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     port: process.env.DATABASE_PORT
