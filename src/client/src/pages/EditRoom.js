@@ -36,17 +36,15 @@ class EditRoom extends React.Component {
             <div className='col-3'>
                 <h5 className='border-bottom mt-3'>Edit a room</h5>
                 <form className="form" onSubmit={this.handleSubmit}>
-                    <div>
-                        <label className='label-control' htmlFor="roomNr">Room Number:</label>
-                        <input className='form-control' onChange={this.handleRoomNumberChange} value={this.state.roomNr} type="text" id="roomNr" name="roomNr" /><br />
-                        <label className='label-control' htmlFor="roomType">Room Type:</label><br />
-                        <select className='form-control' onChange={this.handleRoomTypeChange} value={this.state.roomType} id="type" name="type">
-                            <option value="Single">Single</option>
-                            <option value="Double">Double</option>
-                            <option value="Suite">Suite</option>
-                        </select>
-                        <input className='btn btn-primary mt-3' type="submit" value="Submit" />
-                    </div>
+                    <label className='label-control' htmlFor="roomNr">Room Number:</label>
+                    <input className='form-control' onChange={this.handleRoomNumberChange} value={this.state.roomNr} type="text" id="roomNr" name="roomNr" /><br />
+                    <label className='label-control' htmlFor="roomType">Room Type:</label><br />
+                    <select className='form-control' onChange={this.handleRoomTypeChange} value={this.state.roomType} id="type" name="type">
+                        <option value="Single">Single</option>
+                        <option value="Double">Double</option>
+                        <option value="Suite">Suite</option>
+                    </select>
+                    <input className='btn btn-primary mt-3' type="submit" value="Submit" />
                 </form>
             </div>
         )
